@@ -8,12 +8,9 @@ import java.util.UUID;
 
 @Data
 @Document
-public class Product {
+public class Product extends DataResponse {
     @Id
     private UUID idProduct;
-    private String name;
     private String typeProduct;
-    private String currency;
-    private String status;
 
 }
