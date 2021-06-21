@@ -18,7 +18,7 @@ public class AccountSavingProduct {
     @Id
     private UUID idProduct;
     private String name;
-    private String limitMovements;
+    private int limitMovements;
     private String currency;
     private String status;
 }

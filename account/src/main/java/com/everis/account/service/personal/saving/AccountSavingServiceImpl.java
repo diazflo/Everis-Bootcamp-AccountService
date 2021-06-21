@@ -1,13 +1,13 @@
-package com.everis.account.service.personal.accountcurrent;
+package com.everis.account.service.personal.saving;
 
-import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
+import com.everis.account.dao.entity.common.AccountSavingProduct;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
-import com.everis.account.dao.repository.AccountCurrentRepository;
+import com.everis.account.dao.entity.personal.AccountPersonalSaving;
+import com.everis.account.dao.repository.AccountSavingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
@@ -15,32 +15,30 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class AccountCurrentServiceImpl implements AccountCurrentService<AccountPersonalCurrent> {
+public class AccountSavingServiceImpl implements AccountSavingService<AccountPersonalSaving> {
 
     @Autowired
-    private AccountCurrentRepository<AccountPersonalCurrent> repository;
-
+    private AccountSavingRepository<AccountPersonalSaving> repository;
     @Autowired
     private WebClient.Builder builder;
 
     @Override
-    public Mono createPersonalBankAccountCurrent(AccountPersonalCurrent personalCurrent) {
-        log.info("paso 1 antes de realizar el llamado");
+    public Mono<AccountPersonalSaving> createBankAccountSaving(AccountPersonalSaving accountPersonalSaving) {
         String id = UUID.randomUUID().toString();
-        return Mono.just(personalCurrent)
-                .map(account -> {
-                    account.setIdAccount(UUID.fromString(id));
-
+        return Mono.just(accountPersonalSaving).map(
+                saving -> {
+                    saving.setIdAccountSaving(UUID.fromString(id));
                     Mono<ClientPersonal> clientMono = builder.build()
                             .get()
-                            .uri("localhost:8083/client/personal/dni" + account.getClient().getIdClient())
+                            .uri("localhost:8083/client/personal/dni" + saving.getClient().getIdClient())
                             .retrieve()
                             .bodyToMono(ClientPersonal.class);
 
                     clientMono.doOnNext(client -> {
-                        account.setClient(client);
+                        saving.setClient(client);
                         log.info("Client " + client.getIdClient());
                     });
+
                     /*Mono<AccountCurrentProduct> productMono = builder.build()
                             .get()
                             .uri("localhost:8082/product" + account.getAccountCurrentProduct().getIdProduct())
@@ -52,17 +50,11 @@ public class AccountCurrentServiceImpl implements AccountCurrentService<AccountP
                         log.info("Product " + accountCurrentProduct.getIdProduct());
                     });*/
 
-                    account.setCreationDate(new Date());
-                    account.setLastUpdateDate(new Date());
+                    saving.setCreationDate(new Date());
+                    saving.setLastUpdateDate(new Date());
 
-                    return account;
-                }).flatMap(responseEntity -> repository.save(responseEntity));
-    }
-
-    @Override
-    public Flux<AccountPersonalCurrent> getAccount(UUID id) {
-        log.info("idRequest ");
-        log.info("client request ");
-        return repository.findAll();
+                    return saving;
+                }
+        ).flatMap(saving -> repository.save(saving));
     }
 }

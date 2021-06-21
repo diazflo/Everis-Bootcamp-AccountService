@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Document
@@ -22,7 +23,7 @@ import java.util.List;
 public class AccountPersonalCurrent {
 
     @Id
-    private String idAccount;
+    private UUID idAccount;
     private ClientPersonal client;
     private AccountCurrentProduct accountCurrentProduct;
     private String accountNumber;

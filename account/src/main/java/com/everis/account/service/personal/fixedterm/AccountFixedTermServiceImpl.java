@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,8 +25,10 @@ public class AccountFixedTermServiceImpl implements AccountFixedTermServices<Acc
 
     @Override
     public Mono<AccountPersonalFixedTerm> createBankAccountFixedTerm(AccountPersonalFixedTerm accountPersonalFixedTerm) {
+        String id = UUID.randomUUID().toString();
         return Mono.just(accountPersonalFixedTerm).map(
                 fixedTerm -> {
+                    fixedTerm.setIdAccount(UUID.fromString(id));
                     Mono<ClientPersonal> clientMono = builder.build()
                             .get()
                             .uri("localhost:8083/client/personal/dni" + fixedTerm.getClient().getIdClient())
