@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface AccountRepository<T extends AccountPersonalCurrent> extends ReactiveMongoRepository<T, UUID> {
+public interface AccountCurrentRepository<T extends AccountPersonalCurrent> extends ReactiveMongoRepository<T, UUID> {
+
 }

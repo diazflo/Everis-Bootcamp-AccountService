@@ -1,8 +1,8 @@
 package com.everis.account.dao.entity.personal;
 
 import com.everis.account.dao.entity.Associated;
+import com.everis.account.dao.entity.common.AccountSavingProduct;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
-import com.everis.account.dao.entity.common.AccountCurrentProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,23 +13,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
-@Data
+import java.util.UUID;
 @Document
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class AccountPersonalCurrent {
+@AllArgsConstructor
+public class AccountPersonalSaving {
 
     @Id
-    private String idAccount;
+    private UUID idAccountSaving;
     private ClientPersonal client;
-    private AccountCurrentProduct accountCurrentProduct;
+    private AccountSavingProduct product;
+    private String accountNumberCard;
+    private List<Associated> associated;
     private String accountNumber;
-    private String accountCardNumber;
-    private List<Associated> associates;
     private BigDecimal amountAvailable;
-
-    private Date creationDate;
     private Date lastUpdateDate;
+    private Date creationDate;
 }

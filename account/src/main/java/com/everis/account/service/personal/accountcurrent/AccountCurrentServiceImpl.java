@@ -1,10 +1,8 @@
-package com.everis.account.service.personal;
+package com.everis.account.service.personal.accountcurrent;
 
-import com.everis.account.dao.entity.common.AccountCurrentProduct;
 import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
-import com.everis.account.dao.entity.common.Client;
-import com.everis.account.dao.repository.AccountRepository;
-import com.everis.account.service.AccountService;
+import com.everis.account.dao.entity.common.personal.ClientPersonal;
+import com.everis.account.dao.repository.AccountCurrentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +15,10 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class AccountCurrentServiceImpl implements AccountService {
+public class AccountCurrentServiceImpl implements AccountCurrentService<AccountPersonalCurrent> {
 
     @Autowired
-    private AccountRepository<AccountPersonalCurrent> repository;
+    private AccountCurrentRepository<AccountPersonalCurrent> repository;
 
     @Autowired
     private WebClient.Builder builder;
@@ -33,11 +31,11 @@ public class AccountCurrentServiceImpl implements AccountService {
                 .map(account -> {
                     account.setIdAccount(id);
 
-                    Mono<Client> clientMono = builder.build()
+                    Mono<ClientPersonal> clientMono = builder.build()
                             .get()
                             .uri("localhost:8083/client/personal/dni" + account.getClient().getIdClient())
                             .retrieve()
-                            .bodyToMono(Client.class);
+                            .bodyToMono(ClientPersonal.class);
 
                     clientMono.doOnNext(client -> {
                         account.setClient(client);

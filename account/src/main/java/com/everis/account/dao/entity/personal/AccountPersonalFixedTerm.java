@@ -1,8 +1,8 @@
 package com.everis.account.dao.entity.personal;
 
 import com.everis.account.dao.entity.Associated;
+import com.everis.account.dao.entity.common.AccountFixedTermProduct;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
-import com.everis.account.dao.entity.common.AccountCurrentProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,12 +19,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountPersonalCurrent {
+public class AccountPersonalFixedTerm {
 
     @Id
     private String idAccount;
     private ClientPersonal client;
-    private AccountCurrentProduct accountCurrentProduct;
+    private AccountFixedTermProduct accountFixedTermProduct;
     private String accountNumber;
     private String accountCardNumber;
     private List<Associated> associates;
