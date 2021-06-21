@@ -1,5 +1,6 @@
 package com.everis.account.service.personal.fixedterm;
 
+import com.everis.account.dao.entity.common.AccountFixedTermProduct;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
 import com.everis.account.dao.entity.personal.AccountPersonalFixedTerm;
 import com.everis.account.dao.repository.AccountFixedTermRepository;
@@ -40,16 +41,16 @@ public class AccountFixedTermServiceImpl implements AccountFixedTermServices<Acc
                         log.info("Client " + client.getIdClient());
                     });
 
-                    /*Mono<AccountCurrentProduct> productMono = builder.build()
+                    Mono<AccountFixedTermProduct> productMono = builder.build()
                             .get()
-                            .uri("localhost:8082/product" + account.getAccountCurrentProduct().getIdProduct())
+                            .uri("localhost:8081/product" + fixedTerm.getAccountFixedTermProduct().getIdProduct())
                             .retrieve()
-                            .bodyToMono(AccountCurrentProduct.class);
+                            .bodyToMono(AccountFixedTermProduct.class);
 
                     productMono.doOnNext(accountCurrentProduct ->{
-                        account.setAccountCurrentProduct(accountCurrentProduct);
+                        fixedTerm.setAccountFixedTermProduct(accountCurrentProduct);
                         log.info("Product " + accountCurrentProduct.getIdProduct());
-                    });*/
+                    });
 
                     fixedTerm.setCreationDate(new Date());
                     fixedTerm.setLastUpdateDate(new Date());

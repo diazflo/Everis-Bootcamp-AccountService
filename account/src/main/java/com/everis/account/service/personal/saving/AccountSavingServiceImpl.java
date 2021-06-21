@@ -39,16 +39,16 @@ public class AccountSavingServiceImpl implements AccountSavingService<AccountPer
                         log.info("Client " + client.getIdClient());
                     });
 
-                    /*Mono<AccountCurrentProduct> productMono = builder.build()
+                    Mono<AccountSavingProduct> productMono = builder.build()
                             .get()
-                            .uri("localhost:8082/product" + account.getAccountCurrentProduct().getIdProduct())
+                            .uri("localhost:8082/product" + saving.getProduct().getIdProduct())
                             .retrieve()
-                            .bodyToMono(AccountCurrentProduct.class);
+                            .bodyToMono(AccountSavingProduct.class);
 
                     productMono.doOnNext(accountCurrentProduct ->{
-                        account.setAccountCurrentProduct(accountCurrentProduct);
+                        saving.setProduct(accountCurrentProduct);
                         log.info("Product " + accountCurrentProduct.getIdProduct());
-                    });*/
+                    });
 
                     saving.setCreationDate(new Date());
                     saving.setLastUpdateDate(new Date());
