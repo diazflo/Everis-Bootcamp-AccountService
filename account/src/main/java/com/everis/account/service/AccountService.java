@@ -1,14 +1,14 @@
 package com.everis.account.service;
 
-import com.everis.account.dao.entity.Account;
+import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-public interface AccountService<T extends Account> {
+public interface AccountService<T> {
 
-    Mono<T> createBankAccount(Account bankAccount);
+    Mono<T> createPersonalBankAccountCurrent(AccountPersonalCurrent bankAccount);
 
-    Flux<T> getAllClient(UUID id);
+    Flux<T> getAccount(UUID id);
 }

@@ -1,5 +1,6 @@
-package com.everis.account.dao.entity;
+package com.everis.account.dao.entity.common;
 
+import com.everis.account.dao.entity.DataResponse;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

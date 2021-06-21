@@ -1,7 +1,6 @@
 package com.everis.account.controller;
 
-import com.everis.account.dao.entity.Account;
-import com.everis.account.dao.entity.Client;
+import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
 import com.everis.account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +14,21 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/bank")
-public class AccountController<T> {
+@RequestMapping("/bank/account/personal")
+public class AccountCurrentPersonalController<T> {
 
     @Autowired
-    AccountService<Account> accountService;
+    AccountService<AccountPersonalCurrent> accountService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<T> createBankAccount(@RequestBody Account bankAccount){
+    public Mono<ResponseEntity> createBankAccount(@RequestBody AccountPersonalCurrent bankAccount){
         log.info("get id Client" + bankAccount.getClient().getIdClient());
-        return accountService.createBankAccount(bankAccount).map(account ->  (T) account);
+        return accountService.createPersonalBankAccountCurrent(bankAccount).map(accountPersonalCurrent -> ResponseEntity.status(HttpStatus.CREATED).body(accountPersonalCurrent));
     }
 
     @GetMapping("/{id}")
-    public Flux<Account> getAllClient(@PathVariable UUID id){
-        return accountService.getAllClient(id);
+    public Flux<AccountPersonalCurrent> getAllClient(@PathVariable UUID id){
+        return accountService.getAccount(id);
     }
 }
