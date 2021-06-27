@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/home/")
+@RequestMapping("/bank/account/home/")
 public class HomeController {
 
     @GetMapping
