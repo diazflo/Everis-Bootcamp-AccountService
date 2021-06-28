@@ -3,6 +3,7 @@ package com.everis.account.service.personal.accountcurrent;
 import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
 import com.everis.account.dao.repository.AccountCurrentRepository;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,14 @@ public class AccountCurrentServiceImpl implements AccountCurrentService<AccountP
     }
 
     @Override
+    @HystrixCommand(fallbackMethod = "getAccountDefault")
     public Flux<AccountPersonalCurrent> getAccount(UUID id) {
         log.info("idRequest ");
         log.info("client request ");
         return repository.findAll();
+    }
+
+    public Flux<AccountPersonalCurrent> getAccountDefault(UUID id) {
+        return Flux.empty();
     }
 }
