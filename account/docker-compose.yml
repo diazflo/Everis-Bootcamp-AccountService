@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  account-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docker-account-service
+    restart: always
+    ports:
+      - 8084:8084
+    networks:
+      bank_network:
+        aliases:
+          - app_subnet
+        #ipv4_address: 172.20.0.3
+networks:
+  bank_network:
+    name: app_subnet
+    external: true
