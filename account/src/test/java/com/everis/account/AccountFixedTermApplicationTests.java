@@ -7,6 +7,7 @@ import com.everis.account.dao.entity.personal.AccountPersonalFixedTerm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -20,7 +21,8 @@ import java.util.UUID;
 @ExtendWith(MockitoExtension.class)
 class AccountFixedTermApplicationTests {
 
-	private int port = 9001;
+	@Value("${server.port}")
+	String port;
 
 	@Test
 	public void postAccount(){

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -19,7 +20,7 @@ public class AccountCurrentEntController {
     AccountCurrentEntService service;
 
     @GetMapping("/ruc/{ruc}")
-    public Mono<ResponseEntity> findAccounByDni(@PathVariable("ruc") String ruc){
+    public Flux<ResponseEntity> findAccounByDni(@PathVariable("ruc") String ruc){
         return service.findAccountByRuc(ruc).map(ResponseEntity::ok);
     }
 

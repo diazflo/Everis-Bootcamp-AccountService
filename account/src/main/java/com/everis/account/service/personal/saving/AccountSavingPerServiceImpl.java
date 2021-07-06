@@ -6,6 +6,7 @@ import com.everis.account.dao.entity.personal.AccountPersonalSaving;
 import com.everis.account.dao.repository.AccountSavingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -21,6 +22,11 @@ public class AccountSavingPerServiceImpl implements AccountSavingPerService<Acco
     private AccountSavingRepository<AccountPersonalSaving> repository;
     @Autowired
     private WebClient.Builder builder;
+    @Value("${client.hostname.uri}")
+    String portClient;
+    @Value("${product.hostname.uri}")
+    String portProduct;
+
 
     @Override
     public Mono<AccountPersonalSaving> createBankAccountSaving(AccountPersonalSaving accountPersonalSaving) {
@@ -30,7 +36,7 @@ public class AccountSavingPerServiceImpl implements AccountSavingPerService<Acco
                     saving.setIdAccountSaving(UUID.fromString(id));
                     Mono<ClientPersonal> clientMono = builder.build()
                             .get()
-                            .uri("localhost:8083/client/personal/dni" + saving.getClient().getIdClient())
+                            .uri(portClient + "client/personal/dni" + saving.getClient().getIdClient())
                             .retrieve()
                             .bodyToMono(ClientPersonal.class);
 
@@ -41,7 +47,7 @@ public class AccountSavingPerServiceImpl implements AccountSavingPerService<Acco
 
                     Mono<AccountSavingProduct> productMono = builder.build()
                             .get()
-                            .uri("localhost:8082/product" + saving.getProduct().getIdProduct())
+                            .uri(portProduct + "product/" + saving.getProduct().getIdProduct())
                             .retrieve()
                             .bodyToMono(AccountSavingProduct.class);
 

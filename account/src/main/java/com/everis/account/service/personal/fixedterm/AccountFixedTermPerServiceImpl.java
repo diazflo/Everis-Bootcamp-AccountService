@@ -6,6 +6,7 @@ import com.everis.account.dao.entity.personal.AccountPersonalFixedTerm;
 import com.everis.account.dao.repository.AccountFixedTermRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -23,6 +24,11 @@ public class AccountFixedTermPerServiceImpl implements AccountFixedTermPerServic
     @Autowired
     private WebClient.Builder builder;
 
+    @Value("${client.hostname.uri}")
+    String portClient;
+    @Value("${product.hostname.uri}")
+    String portProduct;
+
 
     @Override
     public Mono<AccountPersonalFixedTerm> createBankAccountFixedTerm(AccountPersonalFixedTerm accountPersonalFixedTerm) {
@@ -32,7 +38,7 @@ public class AccountFixedTermPerServiceImpl implements AccountFixedTermPerServic
                     fixedTerm.setIdAccount(UUID.fromString(id));
                     Mono<ClientPersonal> clientMono = builder.build()
                             .get()
-                            .uri("localhost:8083/client/personal/dni" + fixedTerm.getClient().getIdClient())
+                            .uri(portClient + "client/personal/dni" + fixedTerm.getClient().getIdClient())
                             .retrieve()
                             .bodyToMono(ClientPersonal.class);
 
@@ -43,7 +49,7 @@ public class AccountFixedTermPerServiceImpl implements AccountFixedTermPerServic
 
                     Mono<AccountFixedTermProduct> productMono = builder.build()
                             .get()
-                            .uri("localhost:8081/product" + fixedTerm.getAccountFixedTermProduct().getIdProduct())
+                            .uri(portProduct + " product" + fixedTerm.getAccountFixedTermProduct().getIdProduct())
                             .retrieve()
                             .bodyToMono(AccountFixedTermProduct.class);
 

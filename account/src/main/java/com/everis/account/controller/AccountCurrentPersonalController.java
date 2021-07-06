@@ -33,7 +33,7 @@ public class AccountCurrentPersonalController<T> {
     }
 
     @GetMapping("/dni/{dni}")
-    public Mono<ResponseEntity> findAccounByDni(@PathVariable("dni") String dni){
+    public Flux<ResponseEntity> findAccounByDni(@PathVariable("dni") String dni){
         return accountCurrentService.findAccountByDni(dni).map(ResponseEntity::ok);
     }
 }

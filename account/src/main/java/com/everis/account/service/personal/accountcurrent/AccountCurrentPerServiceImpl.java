@@ -7,6 +7,7 @@ import com.everis.account.utils.NotFoundException;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -25,6 +26,11 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
     @Autowired
     private WebClient.Builder builder;
 
+    @Value("${client.hostname.uri}")
+    String portClient;
+    @Value("${product.hostname.uri}")
+    String portProduct;
+
     @Override
     public Mono createPersonalBankAccountCurrent(AccountPersonalCurrent personalCurrent) {
         log.info("paso 1 antes de realizar el llamado");
@@ -35,7 +41,7 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
 
                     Mono<ClientPersonal> clientMono = builder.build()
                             .get()
-                            .uri("localhost:8083/client/personal/" + account.getClient().getIdClient())
+                            .uri(portClient + "client/personal/" + account.getClient().getIdClient())
                             .retrieve()
                             .bodyToMono(ClientPersonal.class);
 
@@ -70,8 +76,8 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
     }
 
     @Override
-    public Mono<AccountPersonalCurrent> findAccountByDni(String dni) {
-        return repository.findAccountByDni(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
+    public Flux<AccountPersonalCurrent> findAccountByDni(String dni) {
+        return repository.findAccountClientByDni(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
     }
 
     public Flux<AccountPersonalCurrent> getAccountDefault(UUID id) {
