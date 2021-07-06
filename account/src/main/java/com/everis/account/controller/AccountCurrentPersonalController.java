@@ -31,4 +31,9 @@ public class AccountCurrentPersonalController<T> {
     public Flux<AccountPersonalCurrent> getAllClient(@PathVariable UUID id){
         return accountCurrentService.getAccount(id);
     }
+
+    @GetMapping("/dni/{dni}")
+    public Mono<ResponseEntity> findAccounByDni(@PathVariable("dni") String dni){
+        return accountCurrentService.findAccountByDni(dni).map(ResponseEntity::ok);
+    }
 }

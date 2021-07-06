@@ -1,4 +1,8 @@
 package com.everis.account.service.enterprise;
 
-public interface AccountCurrentEntService {
+import reactor.core.publisher.Mono;
+
+public interface AccountCurrentEntService<T> {
+
+   public Mono<T> findAccountByRuc(String ruc);
 }

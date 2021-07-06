@@ -3,6 +3,7 @@ package com.everis.account.service.personal.accountcurrent;
 import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
 import com.everis.account.dao.repository.AccountCurrentRepository;
+import com.everis.account.utils.NotFoundException;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,14 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
         return repository.findAll();
     }
 
+    @Override
+    public Mono<AccountPersonalCurrent> findAccountByDni(String dni) {
+        return repository.findAccountByDni(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
+    }
+
     public Flux<AccountPersonalCurrent> getAccountDefault(UUID id) {
         return Flux.empty();
     }
+
+
 }
