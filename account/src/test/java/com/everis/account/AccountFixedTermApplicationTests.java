@@ -4,6 +4,7 @@ import com.everis.account.dao.entity.Associated;
 import com.everis.account.dao.entity.common.AccountFixedTermProduct;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
 import com.everis.account.dao.entity.personal.AccountPersonalFixedTerm;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ class AccountFixedTermApplicationTests {
 	String port;
 
 	@Test
-	public void postAccount(){
+	public void createAccountPersonalFixedTerm(){
 		ArrayList<Associated> list = new ArrayList<>();
 		list.add(new Associated("Bruno", ""));
 		list.add(new Associated("Mathias", ""));
@@ -49,7 +51,7 @@ class AccountFixedTermApplicationTests {
 				.build();
 
 		try {
-			WebTestClient.bindToServer()
+			val result = WebTestClient.bindToServer()
 					.baseUrl("http://localhost:" + port)
 					.build()
 					.post()
@@ -58,7 +60,9 @@ class AccountFixedTermApplicationTests {
 					.accept(MediaType.APPLICATION_JSON)
 					.bodyValue(account)
 					.exchange()
-					.expectStatus().isCreated();
+					.expectStatus();
+
+			StepVerifier.create(s -> result.isCreated());
 		} catch (Exception e){
 			e.printStackTrace();
 		}

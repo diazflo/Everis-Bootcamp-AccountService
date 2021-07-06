@@ -1,5 +1,6 @@
 package com.everis.account.service.personal.accountcurrent;
 
+import com.everis.account.dao.entity.common.AccountCurrentProduct;
 import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
 import com.everis.account.dao.entity.common.personal.ClientPersonal;
 import com.everis.account.dao.repository.AccountCurrentRepository;
@@ -45,20 +46,38 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
                             .retrieve()
                             .bodyToMono(ClientPersonal.class);
 
+                    log.info("uri client " + portClient + "client/personal/" + account.getClient().getIdClient());
+
                     clientMono.doOnNext(client -> {
-                        account.setClient(client);
+                        account.setClient(ClientPersonal.builder()
+                                .idClient(client.getIdClient())
+                                .dni(client.getDni())
+                                .typeClient(client.getTypeClient())
+                                .build());
                         log.info("Client " + client.getIdClient());
                     });
-                    /*Mono<AccountCurrentProduct> productMono = builder.build()
+
+
+                    Mono<AccountCurrentProduct> productMono = builder.build()
                             .get()
-                            .uri("localhost:8082/product" + account.getAccountCurrentProduct().getIdProduct())
+                            .uri(portProduct + "products/checking-account/" + account.getAccountCurrentProduct().getIdPCheckingAccount())
                             .retrieve()
                             .bodyToMono(AccountCurrentProduct.class);
 
-                    productMono.doOnNext(accountCurrentProduct ->{
-                        account.setAccountCurrentProduct(accountCurrentProduct);
-                        log.info("Product " + accountCurrentProduct.getIdProduct());
-                    });*/
+                    log.info("uri product " + portProduct + "products/checking-account/" + account.getAccountCurrentProduct().getIdPCheckingAccount());
+
+                    productMono.doOnNext(accountCurrentProduct -> {
+                        account.setAccountCurrentProduct(AccountCurrentProduct.builder()
+                                .idPCheckingAccount(accountCurrentProduct.getIdPCheckingAccount())
+                                .limitMovements(accountCurrentProduct.getLimitMovements())
+                                .productName(accountCurrentProduct.getProductName())
+                                .maintenanceCost(accountCurrentProduct.getMaintenanceCost())
+                                .currencyType(accountCurrentProduct.getCurrencyType())
+                                .status(accountCurrentProduct.getStatus())
+                                .typeProduct(accountCurrentProduct.getTypeProduct())
+                                .build());
+                        log.info("Product " + accountCurrentProduct.getIdPCheckingAccount());
+                    });
 
                     account.setCreationDate(new Date());
                     account.setLastUpdateDate(new Date());
@@ -69,15 +88,20 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
 
     @Override
     @HystrixCommand(fallbackMethod = "getAccountDefault")
-    public Flux<AccountPersonalCurrent> getAccount(UUID id) {
+    public Mono<AccountPersonalCurrent> getAccount(UUID id) {
         log.info("idRequest ");
         log.info("client request ");
-        return repository.findAll();
+        return repository.findById(id).switchIfEmpty(Mono.error(new NotFoundException("No se encontro cuenta")));
+    }
+
+    public Mono<AccountPersonalCurrent> getAccountDefault(UUID id, Throwable e) {
+        e.printStackTrace();
+        return Mono.error(e);
     }
 
     @Override
     public Flux<AccountPersonalCurrent> findAccountByDni(String dni) {
-        return repository.findByClient(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
+        return repository.findByClientDni(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
     }
 
     @Override
@@ -85,9 +109,7 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
         return repository.findByAccountNumber(accountNumber).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
     }
 
-    public Flux<AccountPersonalCurrent> getAccountDefault(UUID id) {
-        return Flux.empty();
-    }
+
 
 
 }

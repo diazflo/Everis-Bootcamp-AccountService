@@ -10,7 +10,7 @@ public interface AccountCurrentPerService<T> {
 
     Mono<T> createPersonalBankAccountCurrent(AccountPersonalCurrent bankAccount);
 
-    Flux<T> getAccount(UUID id);
+    Mono<T> getAccount(UUID id);
 
     Flux<T> findAccountByDni(String dni);
 

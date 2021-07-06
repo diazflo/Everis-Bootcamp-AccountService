@@ -18,11 +18,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AccountCurrentProduct extends DataResponse {
     @Id
-    private UUID idProduct;
-    private String nameProduct;
-    private BigDecimal amountMaintenance;
-    private int movementLimit;
-    private String currency;
+    private UUID idPCheckingAccount;
+    private String productName;
+    private BigDecimal maintenanceCost;
+    private int limitMovements;
+    private String currencyType;
     private String status;
     private String typeProduct;
 

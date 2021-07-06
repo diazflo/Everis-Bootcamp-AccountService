@@ -28,13 +28,13 @@ public class AccountCurrentPersonalController<T> {
     }
 
     @GetMapping("/{id}")
-    public Flux<AccountPersonalCurrent> getAllClient(@PathVariable UUID id){
+    public Mono<AccountPersonalCurrent> getAllClient(@PathVariable UUID id){
         return accountCurrentService.getAccount(id);
     }
 
     @GetMapping("/dni/{dni}")
-    public Flux<ResponseEntity> findAccounByDni(@PathVariable("dni") String dni){
-        return accountCurrentService.findAccountByDni(dni).map(ResponseEntity::ok);
+    public Flux<AccountPersonalCurrent> findAccounByDni(@PathVariable("dni") String dni){
+        return accountCurrentService.findAccountByDni(dni);
     }
 
     @GetMapping("/accountnumber/{number}")
