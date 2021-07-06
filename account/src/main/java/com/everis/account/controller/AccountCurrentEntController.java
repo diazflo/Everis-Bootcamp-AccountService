@@ -1,5 +1,6 @@
 package com.everis.account.controller;
 
+import com.everis.account.dao.entity.enterprise.AccountEnterpriseCurrent;
 import com.everis.account.service.enterprise.AccountCurrentEntService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,16 @@ import reactor.core.publisher.Mono;
 public class AccountCurrentEntController {
 
     @Autowired
-    AccountCurrentEntService service;
+    AccountCurrentEntService<AccountEnterpriseCurrent> service;
 
     @GetMapping("/ruc/{ruc}")
     public Flux<ResponseEntity> findAccounByDni(@PathVariable("ruc") String ruc){
         return service.findAccountByRuc(ruc).map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/accountNumber/{number}")
+    public Flux<AccountEnterpriseCurrent> findByAccountNumber(@PathVariable("number") String number){
+        return service.findByAccountNumber(number);
     }
 
 }

@@ -13,4 +13,6 @@ public interface AccountCurrentPerService<T> {
     Flux<T> getAccount(UUID id);
 
     Flux<T> findAccountByDni(String dni);
+
+    Flux<T> findByAccountNumber(String accountNumber);
 }

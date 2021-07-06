@@ -77,7 +77,12 @@ public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<Ac
 
     @Override
     public Flux<AccountPersonalCurrent> findAccountByDni(String dni) {
-        return repository.findAccountClientByDni(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
+        return repository.findByClient(dni).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
+    }
+
+    @Override
+    public Flux<AccountPersonalCurrent> findByAccountNumber(String accountNumber) {
+        return repository.findByAccountNumber(accountNumber).switchIfEmpty(Mono.error(new NotFoundException("Error no se encuentra cuenta")));
     }
 
     public Flux<AccountPersonalCurrent> getAccountDefault(UUID id) {

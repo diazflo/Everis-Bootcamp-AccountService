@@ -21,6 +21,7 @@ class AccountApplicationTests {
 
 	@Value("${server.port}")
 	String port;
+	@Value("")
 
 	@Test
 	public void postAccount(){

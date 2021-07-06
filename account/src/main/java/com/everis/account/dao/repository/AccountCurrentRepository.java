@@ -9,5 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface AccountCurrentRepository<T extends AccountPersonalCurrent> extends ReactiveMongoRepository<T, UUID> {
-    public Flux<T> findAccountClientByDni(String dni);
+    public Flux<T> findByClient(String dni);
+
+    public Flux<T> findByAccountNumber(String accountNumber);
 }

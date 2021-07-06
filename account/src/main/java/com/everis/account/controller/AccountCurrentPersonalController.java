@@ -36,4 +36,9 @@ public class AccountCurrentPersonalController<T> {
     public Flux<ResponseEntity> findAccounByDni(@PathVariable("dni") String dni){
         return accountCurrentService.findAccountByDni(dni).map(ResponseEntity::ok);
     }
+
+    @GetMapping("/accountnumber/{number}")
+    public Flux<AccountPersonalCurrent> findByAccounNumber(@PathVariable("number") String accountNumber){
+        return accountCurrentService.findByAccountNumber(accountNumber);
+    }
 }

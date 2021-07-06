@@ -16,6 +16,12 @@ public class AccountCurrentEntServiceImpl implements AccountCurrentEntService{
 
     @Override
     public Flux<AccountEnterpriseCurrent> findAccountByRuc(String ruc) {
-        return repository.findClientByRuc(ruc).switchIfEmpty(Mono.error(new NotFoundException("No se encontro")));
+        return repository.findByClient(ruc).switchIfEmpty(Mono.error(new NotFoundException("No se encontro")));
     }
+
+    @Override
+    public Flux findByAccountNumber(String accountNumber) {
+        return repository.findByAccountNumber(accountNumber).switchIfEmpty(Mono.error(new NotFoundException("No se encontro")));
+    }
+
 }
