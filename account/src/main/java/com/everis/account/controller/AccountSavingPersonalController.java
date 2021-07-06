@@ -1,8 +1,7 @@
 package com.everis.account.controller;
 
-import com.everis.account.dao.entity.personal.AccountPersonalFixedTerm;
 import com.everis.account.dao.entity.personal.AccountPersonalSaving;
-import com.everis.account.service.personal.saving.AccountSavingServiceImpl;
+import com.everis.account.service.personal.saving.AccountSavingPerServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class AccountSavingPersonalController {
 
     @Autowired
-    private AccountSavingServiceImpl service;
+    private AccountSavingPerServiceImpl service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

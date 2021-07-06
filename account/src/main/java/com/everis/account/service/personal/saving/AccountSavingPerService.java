@@ -4,6 +4,6 @@ import com.everis.account.dao.entity.common.AccountSavingProduct;
 import com.everis.account.dao.entity.personal.AccountPersonalSaving;
 import reactor.core.publisher.Mono;
 
-public interface AccountSavingService<T> {
+public interface AccountSavingPerService<T> {
     public Mono<T> createBankAccountSaving(AccountPersonalSaving accountPersonalSaving);
 }

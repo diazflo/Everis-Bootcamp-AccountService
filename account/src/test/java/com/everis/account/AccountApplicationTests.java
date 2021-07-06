@@ -18,7 +18,7 @@ import java.util.UUID;
 @ExtendWith(MockitoExtension.class)
 class AccountApplicationTests {
 
-	private int port = 9001;
+	private int port = 8084;
 
 	@Test
 	public void postAccount(){

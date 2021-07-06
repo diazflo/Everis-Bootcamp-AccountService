@@ -1,7 +1,7 @@
 package com.everis.account.controller;
 
 import com.everis.account.dao.entity.personal.AccountPersonalCurrent;
-import com.everis.account.service.personal.accountcurrent.AccountCurrentService;
+import com.everis.account.service.personal.accountcurrent.AccountCurrentPerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class AccountCurrentPersonalController<T> {
 
     @Autowired
-    AccountCurrentService<AccountPersonalCurrent> accountCurrentService;
+    AccountCurrentPerService<AccountPersonalCurrent> accountCurrentService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

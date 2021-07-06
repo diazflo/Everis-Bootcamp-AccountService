@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class AccountCurrentServiceImpl implements AccountCurrentService<AccountPersonalCurrent> {
+public class AccountCurrentPerServiceImpl implements AccountCurrentPerService<AccountPersonalCurrent> {
 
     @Autowired
     private AccountCurrentRepository<AccountPersonalCurrent> repository;
@@ -34,7 +34,7 @@ public class AccountCurrentServiceImpl implements AccountCurrentService<AccountP
 
                     Mono<ClientPersonal> clientMono = builder.build()
                             .get()
-                            .uri("localhost:8083/client/personal/dni" + account.getClient().getIdClient())
+                            .uri("localhost:8083/client/personal/" + account.getClient().getIdClient())
                             .retrieve()
                             .bodyToMono(ClientPersonal.class);
 

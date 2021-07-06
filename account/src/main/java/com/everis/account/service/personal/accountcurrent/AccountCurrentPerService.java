@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-public interface AccountCurrentService<T> {
+public interface AccountCurrentPerService<T> {
 
     Mono<T> createPersonalBankAccountCurrent(AccountPersonalCurrent bankAccount);
 

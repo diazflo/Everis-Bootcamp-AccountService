@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class AccountFixedTermServiceImpl implements AccountFixedTermServices<AccountPersonalFixedTerm> {
+public class AccountFixedTermPerServiceImpl implements AccountFixedTermPerServices<AccountPersonalFixedTerm> {
 
 
     @Autowired

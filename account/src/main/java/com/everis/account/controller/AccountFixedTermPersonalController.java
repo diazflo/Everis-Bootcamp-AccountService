@@ -1,7 +1,7 @@
 package com.everis.account.controller;
 
 import com.everis.account.dao.entity.personal.AccountPersonalFixedTerm;
-import com.everis.account.service.personal.fixedterm.AccountFixedTermServices;
+import com.everis.account.service.personal.fixedterm.AccountFixedTermPerServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class AccountFixedTermPersonalController {
 
     @Autowired
-    private AccountFixedTermServices<AccountPersonalFixedTerm> services;
+    private AccountFixedTermPerServices<AccountPersonalFixedTerm> services;
 
 
     @PostMapping

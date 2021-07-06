@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class AccountSavingServiceImpl implements AccountSavingService<AccountPersonalSaving> {
+public class AccountSavingPerServiceImpl implements AccountSavingPerService<AccountPersonalSaving> {
 
     @Autowired
     private AccountSavingRepository<AccountPersonalSaving> repository;
